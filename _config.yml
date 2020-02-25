@@ -28,7 +28,7 @@ github_username: michaelkpfeifer
 
 # Build settings
 # theme: minima
-theme: jekyll-theme-merlot
+theme: jekyll-theme-time-machine
 plugins:
   - jekyll-feed
 
