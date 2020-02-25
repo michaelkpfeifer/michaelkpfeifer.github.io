@@ -28,7 +28,7 @@ github_username: michaelkpfeifer
 
 # Build settings
 # theme: minima
-theme: minima
+theme: jekyll-theme-merlot
 plugins:
   - jekyll-feed
 
