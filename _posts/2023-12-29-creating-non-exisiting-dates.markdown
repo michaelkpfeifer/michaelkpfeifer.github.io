@@ -48,30 +48,30 @@ Elixir has a notion of dates, times, and datetimes (i.e. time stamps).
 Dates can be created using `Date.new/3`, times can be created using
 `Time.new/3` and time stamps can be created using `DateTime.new/4`.
 
-```elixir
+{% highlight js %}
 # Elixir Date.new/3 with valid input
 date = Date.new(2021, 1, 15)
 
 # "IO.inspect(date)" prints {:ok, ~D[2021-01-15]}
-```
+{% endhighlight %}
 
-```elixir
+{% highlight js %}
 # Elixir Date.new/3 with invalid input
 date = Date.new(2021, 2, 30)
 
 # "IO.inspect(date)" prints {:error, :invalid_date}
-```
+{% endhighlight %}
 
 Creating a time stamp requires a date and a time.
 
-```elixir
+{% highlight js %}
 # Elixir DateTime.new/4 with valid input
 {:ok, date} = Date.new(2021, 1, 15)
 {:ok, time} = Time.new(8, 0, 0)
 time_stamp = DateTime.new(date, time)
 
 # "IO.inspect(time_stamp)" prints {:ok, ~U[2021-01-15 08:00:00Z]}
-```
+{% endhighlight %}
 
 When no time zone is specified in the `DateTime.new/4` function,
 Elixir assumes UTC.
@@ -101,19 +101,19 @@ application.
 
 Creating valid and invalid dates is exceptionally simple.
 
-```erlang
+{% highlight js %}
 %% Erlang valid date as tuple
 Date = {2021, 1, 15}.
 
 %% "io:format("~p~n", [Date])." prints {2021,1,15}
-```
+{% endhighlight %}
 
-```erlang
+{% highlight js %}
 %% Erlang invalid date as tuple
 Date = {2021, 2, 30}.
 
 %% "io:format("~p~n", [Date])." prints {2021,2,30}
-```
+{% endhighlight %}
 
 Erlang provides the `calendar:valid_date/1` and
 `calendar:valid_date/3` functions to validate that a given date is
@@ -122,16 +122,16 @@ actually valid.
 Let's see what happens if we attempt to do artihmetic with invalid
 dates. We will try to add one day to 2021-1-15 and to 2021-2-30.
 
-```erlang
+{% highlight js %}
 %% Erlang valid date as tuple
 Date = {2021, 1, 15}.
 DatePlus1 =
   calendar:gregorian_days_to_date(calendar:date_to_gregorian_days(Date) + 1).
 
 %% "io:format("~p~n", [DatePlus1])." prints {2021,1,16}
-```
+{% endhighlight %}
 
-```erlang
+{% highlight js %}
  %% Erlang invalid date as tuple
  Date = {2021, 2, 30}.
  try
@@ -144,7 +144,7 @@ DatePlus1 =
  %% prints
  %% ** exception error: no true branch found when evaluating an if expression
  %%      in function  calendar:date_to_gregorian_days/3 (calendar.erl, line 134)
-```
+{% endhighlight %}
 
 
 There is nothing that distinguishes any tuple from a tuple
@@ -155,9 +155,9 @@ Valid time stamps depend on valid dates. There is no need to try to
 create a time stamp representing 2021-02-30 08:00. Of course, we can
 easily write down a tuple of tuples such as
 
-```erlang
+{% highlight js %}
 {% raw %}{{2021, 2, 30}, {8, 0, 0}}{% endraw %}
-```
+{% endhighlight %}
 
 and insist that this is a representation of an invalid
 timestamp. Whether this is true is probably a philosophical
