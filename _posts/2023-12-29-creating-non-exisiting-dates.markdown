@@ -178,15 +178,15 @@ time. Internally, it stores milliseconds since 1 January 1970 UTC.
 and 11 represents December.
 
 {% highlight js %}
-  // new Date with valid input
-  const date = new Date(2021, 0, 15);
+// new Date with valid input
+const date = new Date(2021, 0, 15);
 
-  // "console.log(date.toDateString());" prints "Fri Jan 15 2021"
+// "console.log(date.toDateString());" prints "Fri Jan 15 2021"
 
-  // new Date with invalid input
-  const date = new Date(2021, 1, 30);
+// new Date with invalid input
+const date = new Date(2021, 1, 30);
 
-  // "console.log(date.toDateString());" prints "Tue Mar 02 2021"
+// "console.log(date.toDateString());" prints "Tue Mar 02 2021"
 {% endhighlight %}
 
 Since JavaScript does not distinguish between dates and times, it
