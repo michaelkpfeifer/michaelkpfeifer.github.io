@@ -168,6 +168,51 @@ Erlang is a little bit unusual in this list of programming languages
 since dates and time stamps are created by creating the corresoponding
 representation without the help of any constructor functions.
 
+# JavaScript
+
+JavaScript does not distinguish between dates and times.  The
+JavaScript `Date` object represents a single moment in
+time. Internally, it stores milliseconds since 1 January 1970 UTC.
+
+`Date` objects can be created by passing year, month, and day into the
+`Date` constructor. Months are counted from 0, so 0 represents January
+and 11 represents December.
+
+{% highlight js %}
+  // new Date with valid input
+  const date = new Date(2021, 0, 15);
+
+  // "console.log(date.toDateString());" prints "Fri Jan 15 2021"
+
+  // new Date with invalid input
+  const date = new Date(2021, 1, 30);
+
+  // "console.log(date.toDateString());" prints "Tue Mar 02 2021"
+{% endhighlight %}
+
+Since JavaScript does not distinguish between dates and times, it
+would be very surprising to see a different behavior when passing in
+hour, minutes, and seconds in addition to year, month, and day.
+
+Note that the examples below use `Date.UTC()` method to compute the
+number of milliseconds since January 1, 1970, 00:00:00 UTC.  This
+number is then then be passed into the `Date` constructor.
+
+{% highlight js %}
+// new Date with valid input
+const date = new Date(Date.UTC(2021, 0, 15, 8, 0, 0));
+
+// "console.log(date.toISOString());" prints 2021-01-15T08:00:00.000Z
+
+// new Date with invalid input
+const date = new Date(Date.UTC(2021, 1, 30, 8, 0, 0));
+
+// "console.log(date.toisostring());" prints 2021-03-02t08:00:00.000z
+{% endhighlight %}
+
+Apparently, JavaScript wants to spare its users from negative
+experiences in the browser.
+
 # Summary
 
 The following table is a collection of the results.
@@ -179,6 +224,8 @@ The following table is a collection of the results.
 | Elixir UTC Time               | impossible to create                          |
 | Erlang Date                   | unusable syntactically correct representation |
 | Erlang UTC Time               | unusable syntactically correct representation |
+| JavaScript Date               | rolls over to some valid date                 |
+| JavaScript UTC Time           | rolls over to some valid time stamp           |
 |-------------------------------+-----------------------------------------------+
 
 # Conclusion
