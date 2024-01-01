@@ -48,14 +48,14 @@ Elixir has a notion of dates, times, and datetimes (i.e. time stamps).
 Dates can be created using `Date.new/3`, times can be created using
 `Time.new/3` and time stamps can be created using `DateTime.new/4`.
 
-{% highlight js %}
+{% highlight elixir %}
 # Elixir Date.new/3 with valid input
 date = Date.new(2021, 1, 15)
 
 # "IO.inspect(date)" prints {:ok, ~D[2021-01-15]}
 {% endhighlight %}
 
-{% highlight js %}
+{% highlight elixir %}
 # Elixir Date.new/3 with invalid input
 date = Date.new(2021, 2, 30)
 
@@ -64,7 +64,7 @@ date = Date.new(2021, 2, 30)
 
 Creating a time stamp requires a date and a time.
 
-{% highlight js %}
+{% highlight elixir %}
 # Elixir DateTime.new/4 with valid input
 {:ok, date} = Date.new(2021, 1, 15)
 {:ok, time} = Time.new(8, 0, 0)
@@ -101,14 +101,14 @@ application.
 
 Creating valid and invalid dates is exceptionally simple.
 
-{% highlight js %}
+{% highlight erlang %}
 %% Erlang valid date as tuple
 Date = {2021, 1, 15}.
 
 %% "io:format("~p~n", [Date])." prints {2021,1,15}
 {% endhighlight %}
 
-{% highlight js %}
+{% highlight erlang %}
 %% Erlang invalid date as tuple
 Date = {2021, 2, 30}.
 
@@ -122,7 +122,7 @@ actually valid.
 Let's see what happens if we attempt to do artihmetic with invalid
 dates. We will try to add one day to 2021-1-15 and to 2021-2-30.
 
-{% highlight js %}
+{% highlight erlang %}
 %% Erlang valid date as tuple
 Date = {2021, 1, 15}.
 DatePlus1 =
@@ -131,7 +131,7 @@ DatePlus1 =
 %% "io:format("~p~n", [DatePlus1])." prints {2021,1,16}
 {% endhighlight %}
 
-{% highlight js %}
+{% highlight erlang %}
  %% Erlang invalid date as tuple
  Date = {2021, 2, 30}.
  try
@@ -146,7 +146,6 @@ DatePlus1 =
  %%      in function  calendar:date_to_gregorian_days/3 (calendar.erl, line 134)
 {% endhighlight %}
 
-
 There is nothing that distinguishes any tuple from a tuple
 representing a date. `{2021, 2, 30}` is a perfectly fine tuple but it
 is simply not a representation of a date.
@@ -155,7 +154,7 @@ Valid time stamps depend on valid dates. There is no need to try to
 create a time stamp representing 2021-02-30 08:00. Of course, we can
 easily write down a tuple of tuples such as
 
-{% highlight js %}
+{% highlight erlang %}
 {% raw %}{{2021, 2, 30}, {8, 0, 0}}{% endraw %}
 {% endhighlight %}
 
