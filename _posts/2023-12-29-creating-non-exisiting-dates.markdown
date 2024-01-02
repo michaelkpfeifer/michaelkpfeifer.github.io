@@ -167,6 +167,94 @@ Erlang is a little bit unusual in this list of programming languages
 since dates and time stamps are created by creating the corresoponding
 representation without the help of any constructor functions.
 
+# Haskell
+
+Everything I have learned about dates and times in Haskell is
+summarized in the [Haskell Time Library
+Tutorial](https://two-wrongs.com/haskell-time-library-tutorial).
+
+Haskell comes with the `Data.Time` module which provides the
+`fromGregorian` function. `fromGregorian` takes three arguments: the
+year, the month, and the day. Months are counted from 1.
+`fromGregorian` returns a value of type `Day`.
+
+{% highlight haskell %}
+-- Haskell fromGregorian with valid input
+import Data.Time
+date = fromGregorian 2021 1 15
+
+-- "print date" prints "2021-01-15"
+{% endhighlight %}
+
+{% highlight haskell %}
+-- Haskell fromGregorian with invalid input
+import Data.Time
+date = fromGregorian 2021 2 30
+
+-- "print date" prints "2021-02-28"
+{% endhighlight %}
+
+Really? Just return the last day of the month? This is surprising
+enough to dig a little bit deeper. I was expecting Haskell to fight
+against invalid data. And, indeed, there is a `fromGregorianValid`
+function that works similarly to `fromGregorian` but returns a `Maybe
+Day` value.
+
+{% highlight haskell %}
+-- Haskell fromGregorianValid with invalid input
+import Data.Time
+maybeDate = fromGregorianValid 2021 2 30
+
+-- "print maybeDate" prints Nothing
+{% endhighlight %}
+
+UTC time stamps in Haskell are represented by values of the `UTCTime`
+type.  And `UTCTime` values are built from a `Day` value and an offset
+that stores how many seconds of the given day have passed.
+
+Creating `UTCTime` values is easy when using `fromGregorian` since
+`fromGregorian` returns a Day value.
+
+{% highlight haskell %}
+-- Haskell fromGregorian with invalid input
+import Data.Time
+utcTime = UTCTime (fromGregorian 2021 2 30) (8 * 60 * 60)
+
+-- "print utcTime" prints "2021-02-28 08:00:00 UTC"
+{% endhighlight %}
+
+Things become somewhat more complicated when using
+`fromGregorianValid` to construct a Day value because
+`fromGregorianValid` returns a Maybe Day value.
+
+Note that the `:{` and `:}` tokens in the code fragments below do not
+really belong to the code. The are used to allow line breaks in GHCi,
+the interactive interface to the Glasgow Haskell compiler.
+
+{% highlight haskell %}
+-- Haskell fromGregorianValid with valid input
+import Data.Time
+:{
+maybeUtcTime = case (fromGregorianValid 2021 1 15) of
+                 Nothing -> Nothing
+                 Just day -> Just $ UTCTime day (8 * 60 * 60)
+:}
+
+-- "print maybeUtcTime" prints "Just 2021-01-15 08:00:00 UTC"
+{% endhighlight %}
+
+{% highlight haskell %}
+-- Haskell fromGregorianValid with invalid input
+import Data.Time
+:{
+maybeUtcTime = case (fromGregorianValid 2021 2 30) of
+                 Nothing -> Nothing
+                 Just day -> Just $ UTCTime day (8 * 60 * 60)
+:}
+
+-- "print maybeUtcTime" prints Nothing
+{% endhighlight %}
+
 # JavaScript
 
 JavaScript does not distinguish between dates and times.  The
@@ -227,6 +315,8 @@ The following table is a collection of the results.
 | Elixir UTC Time               | impossible to create                          |
 | Erlang Date                   | unusable syntactically correct representation |
 | Erlang UTC Time               | unusable syntactically correct representation |
+| Haskell Date                  | provides two implementations                  |
+| Haskell UTC Time              | depends on construction date values           |
 | JavaScript Date               | rolls over to some valid date                 |
 | JavaScript UTC Time           | rolls over to some valid time stamp           |
 |-------------------------------+-----------------------------------------------+
