@@ -182,7 +182,9 @@ and 11 represents December.
 const date = new Date(2021, 0, 15);
 
 // "console.log(date.toDateString());" prints "Fri Jan 15 2021"
+{% endhighlight %}
 
+{% highlight js %}
 // new Date with invalid input
 const date = new Date(2021, 1, 30);
 
@@ -202,7 +204,9 @@ number is then then be passed into the `Date` constructor.
 const date = new Date(Date.UTC(2021, 0, 15, 8, 0, 0));
 
 // "console.log(date.toISOString());" prints 2021-01-15T08:00:00.000Z
+{% endhighlight %}
 
+{% highlight js %}
 // new Date with invalid input
 const date = new Date(Date.UTC(2021, 1, 30, 8, 0, 0));
 
