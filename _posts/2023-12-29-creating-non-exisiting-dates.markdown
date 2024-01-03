@@ -255,6 +255,108 @@ maybeUtcTime = case (fromGregorianValid 2021 2 30) of
 -- "print maybeUtcTime" prints Nothing
 {% endhighlight %}
 
+
+
+
+
+
+# Java
+
+The [Java SE 8 Date and
+Time](https://www.oracle.com/technical-resources/articles/java/jf14-date-time.html)
+documentation seems to be a useful introduction to date and time
+handling in Java.
+
+Java ships with the `LocalDate` class whose purpose is to represent
+dates without time zones.  Exactly what we want for the first test.
+
+Dates can be created using the `LocalDate.of` method, passing in year,
+month, and day. Months are counted from 1, so 1 corresponds to January
+and 12 corresponds to December.
+
+{% highlight java %}
+// Java Localdate.of with valid input
+import java.time.LocalDate;
+
+class SomeDate {
+    public static void main(String[] args) {
+        LocalDate someDate = LocalDate.of(2021, 1, 15);
+        System.out.println(someDate);
+    }
+}
+
+// prints "2021-01-15"
+{% endhighlight %}
+
+{% highlight java %}
+// Java Localdate.of with invalid input
+import java.time.LocalDate;
+
+class SomeDate {
+    public static void main(String[] args) {
+        try {
+            LocalDate someDate = LocalDate.of(2021, 2, 30);
+            System.out.println(someDate);
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+// raises a "java.time.DateTimeException: Invalid date 'FEBRUARY 30'" exception
+{% endhighlight %}
+
+Instances of the `LocalDateTime` class represent time stamps in local
+time. They do not have any notion of a time zone (so they are not too
+useful when trying to create an object that represents 2021-02-31
+08:00 UTC. Fortunately, there is the `ZonedDateTime` class that adds
+time time zones to `LocalDateTime`.
+
+{% highlight java %}
+// Java LocaldateTime.of with valid input
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+
+class SomeTime {
+    public static void main(String[] args) {
+        LocalDateTime someLocalTime = LocalDateTime.of(2021, 1, 15, 8, 0, 0);
+        ZonedDateTime someZonedTime =
+            ZonedDateTime.of(someLocalTime, ZoneId.of("UTC"));
+        System.out.println(someZonedTime);
+    }
+}
+
+// prints "2021-01-15T08:00Z[UTC]"
+{% endhighlight %}
+
+{% highlight java %}
+// Java LocaldateTime.of with invalid input
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+
+class SomeTime {
+    public static void main(String[] args) {
+        try {
+            LocalDateTime someLocalTime = LocalDateTime.of(2021, 2, 30, 8, 0, 0);
+            ZonedDateTime someZonedTime =
+                ZonedDateTime.of(someLocalTime, ZoneId.of("UTC"));
+            System.out.println(someZonedTime);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+// raises a "java.time.DateTimeException: Invalid date 'FEBRUARY 30'" exception
+{% endhighlight %}
+
+In some sense, Java does exactly what is expected from the big
+enterprise language. It simply refuses to create invalid dates and
+expects the user to handle the resulting errors.
+
 # JavaScript
 
 JavaScript does not distinguish between dates and times.  The
@@ -317,6 +419,8 @@ The following table is a collection of the results.
 | Erlang UTC Time               | unusable syntactically correct representation |
 | Haskell Date                  | provides two implementations                  |
 | Haskell UTC Time              | depends on construction date values           |
+| Java Date                     | raises exception                              |
+| Java UTC Time                 | raises exception                              |
 | JavaScript Date               | rolls over to some valid date                 |
 | JavaScript UTC Time           | rolls over to some valid time stamp           |
 |-------------------------------+-----------------------------------------------+
