@@ -406,6 +406,64 @@ const date = new Date(Date.UTC(2021, 1, 30, 8, 0, 0));
 Apparently, JavaScript wants to spare its users from negative
 experiences in the browser.
 
+# Ruby
+
+Ruby provides a `Date`, a `DateTime`, and a `Time` class.
+
+`Date` objects store simple dates without seconds or time zones.
+
+`Time` objects store time stamps.
+
+And `DateTime` objects are deprecated (compare [class
+DateTime](https://docs.ruby-lang.org/en/master/DateTime.html)), so we
+will look at `Date` and `Time`.
+
+The constructor of the `Date` class takes three arguments: year,
+month, date. Months are indexed from 1.
+
+{% highlight ruby %}
+# Date.new with valid input
+require 'date'
+date = Date.new(2021, 1, 15)
+
+# "puts date" prints "2021-01-15"
+{% endhighlight %}
+
+{% highlight ruby %}
+# Date.new with invalid input
+require 'date'
+date = begin
+  Date.new(2021, 2, 30)
+rescue => e
+  e
+end
+
+# "puts date" prints "#<Date::Error: invalid date>"
+{% endhighlight %}
+
+And now, UTC timestamps. The `Time.utc` class method takes the six
+expected arguments in the expected order and returns time a stamp in
+the UTC time zone.
+
+{% highlight ruby %}
+# Time.utc with valid input
+require 'date'
+timestamp = Time.utc(2021, 1, 15, 8, 0, 0)
+
+# "puts timestamp" prints "2021-01-15 08:00:00 UTC"
+{% endhighlight %}
+
+{% highlight ruby %}
+# Time.utc with invalid input
+require 'date'
+timestamp = Time.utc(2021, 2, 30, 8, 0, 0)
+
+# "puts timestamp" prints "2021-03-02 08:00:00 UTC"
+{% endhighlight %}
+
+`Date.new` raises an exception where `Time.utc` happily creates some
+time stamp in the following month.
+
 # Summary
 
 The following table is a collection of the results.
@@ -423,6 +481,8 @@ The following table is a collection of the results.
 | Java UTC Time                 | raises exception                              |
 | JavaScript Date               | rolls over to some valid date                 |
 | JavaScript UTC Time           | rolls over to some valid time stamp           |
+| Ruby Date                     | raises exception                              |
+| Ruby UTC Time                 | rolls over to some valid time stamp           |
 |-------------------------------+-----------------------------------------------+
 
 # Conclusion
