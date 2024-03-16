@@ -12,5 +12,3 @@ kramdown:
 theme: minima
 plugins:
   - jekyll-feed
-exclude: [playground]
-
