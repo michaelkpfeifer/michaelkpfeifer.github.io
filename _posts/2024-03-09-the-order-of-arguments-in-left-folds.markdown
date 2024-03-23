@@ -88,6 +88,26 @@ an array), the order of arguments in the combining function is
 relevant, so these examples help make sure that we get the order or
 arguments right.
 
+# Clojure
+
+The standard fold function in Clojure is called *reduce*. There are
+lots of examples in
+[https://clojuredocs.org/clojure.core/reduce](https://clojuredocs.org/clojure.core/reduce).
+
+```clojure
+(defn rev []
+  (let [collection '(1 2 3 4 5)
+        initial-accumulator []
+        combining-function (fn [current-accumulator current-item]
+                             (cons current-item current-accumulator))]
+    (reduce
+     combining-function
+     initial-accumulator
+     collection)))
+
+(println (rev)) ; prints (5 4 3 2 1)
+```
+
 # Gleam
 
 The standard fold function in Gleam is actually called *fold*. (Great name.)
@@ -191,7 +211,6 @@ const rev2 = () => {
 console.log(rev2());  // prints [ 5, 4, 3, 2, 1 ]
 ```
 
-
 # Summary
 
 In JavaScript, fold is not implemented as a function but as a method
@@ -208,18 +227,20 @@ below.
 
 **fold**
 
-|            | first        | middle                           | last                             |
-|:-----------|:-------------|:---------------------------------|:---------------------------------|
-| Gleam      | collection   | initial value of the accumulator | combining function               |
-| JavaScript | collection   | combining function               | initial value of the accumulator |
+|            | first              | middle              | last                |
+|:-----------|:-------------------|:--------------------|:--------------------|
+| Clojure    | combining function | initial accumulator | collection          |
+| Gleam      | collection         | initial accumulator | combining function  |
+| JavaScript | collection         | combining function  | initial accumulator |
 
 
 **Combining Function**
 
-|            | first               | last          |
-|:-----------|:--------------------|:--------------|
-| Gleam      | current accumulator | current item  |
-| JavaScript | current accumulator | current item  |
+|            | first               | last         |
+|:-----------|:--------------------|:-------------|
+| Clojure    | current accumulator | current item |
+| Gleam      | current accumulator | current item |
+| JavaScript | current accumulator | current item |
 
 
 The order of arguments in the combining function seems to be arbitrary
