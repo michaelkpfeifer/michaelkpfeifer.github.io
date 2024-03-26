@@ -26,7 +26,9 @@ function of the respective language with the arguments in the right
 order (unless the language does not support named arguments, of
 course).
 
-Why aren't we writing these wrappers?
+Why aren't we writing these wrappers? I guess one of the reasons is
+that we would have to remember the argument names. Which may be even
+harder than remembering the argument order.
 
 # Introduction
 
@@ -106,6 +108,32 @@ lots of examples in
      collection)))
 
 (println (rev)) ; prints (5 4 3 2 1)
+```
+
+# Elixir
+
+The standard fold function in Elixir is called *Enum.reduce*.
+[https://hexdocs.pm/elixir/Enum.html#reduce/3](https://hexdocs.pm/elixir/Enum.html#reduce/3)
+provides a description of the `Enum.reduce` function (along with all
+the other functions in the `Enum` module).
+
+```elixir
+def rev do
+  collection = [1, 2, 3, 4, 5]
+  initial_accumulator = []
+
+  combining_function = fn current_item, current_accumulator ->
+    [current_item | current_accumulator]
+  end
+
+  Enum.reduce(
+    collection,
+    initial_accumulator,
+    combining_function
+  )
+end
+
+Reduce.rev() # prints [5, 4, 3, 2, 1]
 ```
 
 # Gleam
@@ -230,17 +258,19 @@ below.
 |            | first              | middle              | last                |
 |:-----------|:-------------------|:--------------------|:--------------------|
 | Clojure    | combining function | initial accumulator | collection          |
+| Elixir     | collection         | initial accumulator | combining function  |
 | Gleam      | collection         | initial accumulator | combining function  |
 | JavaScript | collection         | combining function  | initial accumulator |
 
 
 **Combining Function**
 
-|            | first               | last         |
-|:-----------|:--------------------|:-------------|
-| Clojure    | current accumulator | current item |
-| Gleam      | current accumulator | current item |
-| JavaScript | current accumulator | current item |
+|            | first               | last                |
+|:-----------|:--------------------|:--------------------|
+| Clojure    | current accumulator | current item        |
+| Elixir     | current item        | current accumulator |
+| Gleam      | current accumulator | current item        |
+| JavaScript | current accumulator | current item        |
 
 
 The order of arguments in the combining function seems to be arbitrary
