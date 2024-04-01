@@ -136,6 +136,26 @@ end
 Reduce.rev() # prints [5, 4, 3, 2, 1]
 ```
 
+# F#
+
+The section on [Fold and Scan
+Operations](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/lists#fold-and-scan-operations)
+of the F# documentation on lists explains how to use the `fold`
+function. Microsoft provides a lot of documentation. The details may
+be somewhat hard to find.
+
+```fsharp
+let rev =
+    let collection = [1; 2; 3; 4; 5]
+    let initialAccumulator = []
+    let combiningFunction currentAccumulator currentItem =
+        currentItem :: currentAccumulator
+
+    List.fold combiningFunction initialAccumulator collection
+
+printfn "%A" rev // prints [5; 4; 3; 2; 1]
+```
+
 # Gleam
 
 The standard fold function in Gleam is actually called *fold*. (Great name.)
@@ -259,9 +279,13 @@ below.
 |:-----------|:-------------------|:--------------------|:--------------------|
 | Clojure    | combining function | initial accumulator | collection          |
 | Elixir     | collection         | initial accumulator | combining function  |
+| F#         | combining function | initial accumulator | collection          |
 | Gleam      | collection         | initial accumulator | combining function  |
 | JavaScript | collection         | combining function  | initial accumulator |
 
+Clojure and F# follow their functional roots. Although Exlixir and
+Gleam are functional languages, they moved the combining function to
+the end of the argument list.
 
 **Combining Function**
 
@@ -269,10 +293,11 @@ below.
 |:-----------|:--------------------|:--------------------|
 | Clojure    | current accumulator | current item        |
 | Elixir     | current item        | current accumulator |
+| F#         | current accumulator | current item        |
 | Gleam      | current accumulator | current item        |
 | JavaScript | current accumulator | current item        |
 
 
-The order of arguments in the combining function seems to be arbitrary
-(which probably reflects that there is no "natural" order of
-arguments).
+Apparently, it is more common to pass in the current accumulator as
+the first argument of the combining function. However, I cannot see
+any reason why this should be the preferred way of doing things.
