@@ -136,6 +136,35 @@ end
 Reduce.rev() # prints [5, 4, 3, 2, 1]
 ```
 
+# Elm
+
+The standard fold function in Elm is called *List.foldl*.
+[https://package.elm-lang.org/packages/elm/core/latest/List](https://package.elm-lang.org/packages/elm/core/latest/List)
+documents.  the Elm *List* module (including the ÜList.foldl*
+function).
+
+```elm
+module Fold exposing (rev)
+
+
+rev : List Int
+rev =
+    let
+        collection =
+            [ 1, 2, 3, 4, 5 ]
+
+        initialAccumulator =
+            []
+
+        combiningFunction =
+            \currentItem currentAccumulator -> currentItem :: currentAccumulator
+    in
+    List.foldl combiningFunction initialAccumulator collection
+
+
+Fold.rev // returns [5, 4, 3, 2, 1]
+```
+
 # F#
 
 The section on [Fold and Scan
@@ -266,10 +295,10 @@ on array objects. In this case, it is not possible to talk about the
 order of the three arguments passed into fold. It is still possible to
 talk about the order in which collection, combining function, and
 initial value of the accumulator appear in code. Which means that for
-JavaScript and Ruby, the collection is considered the first argument.
+JavaScript, the collection is considered the first argument.
 
 There is a variant of fold in the Gleam standard library that accepts
-named argument for the collection, the initial accumulator, and the
+named arguments for the collection, the initial accumulator, and the
 combining function. This version does not really fit into the table
 below.
 
@@ -279,13 +308,14 @@ below.
 |:-----------|:-------------------|:--------------------|:--------------------|
 | Clojure    | combining function | initial accumulator | collection          |
 | Elixir     | collection         | initial accumulator | combining function  |
+| Elm        | combining function | initial accumulator | collection          |
 | F#         | combining function | initial accumulator | collection          |
 | Gleam      | collection         | initial accumulator | combining function  |
 | JavaScript | collection         | combining function  | initial accumulator |
 
-Clojure and F# follow their functional roots. Although Exlixir and
-Gleam are functional languages, they moved the combining function to
-the end of the argument list.
+Clojure, Elm, and F# follow their functional roots. Although Elixir
+and Gleam are also functional languages, they moved the combining
+function to the end of the argument list.
 
 **Combining Function**
 
@@ -293,10 +323,10 @@ the end of the argument list.
 |:-----------|:--------------------|:--------------------|
 | Clojure    | current accumulator | current item        |
 | Elixir     | current item        | current accumulator |
+| Elm        | current item        | current accumulator |
 | F#         | current accumulator | current item        |
 | Gleam      | current accumulator | current item        |
 | JavaScript | current accumulator | current item        |
-
 
 Apparently, it is more common to pass in the current accumulator as
 the first argument of the combining function. However, I cannot see
