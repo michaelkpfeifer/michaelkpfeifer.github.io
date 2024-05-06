@@ -8,7 +8,7 @@ categories: Programming
 
 Over the years, I have developed a general interest in programming
 languages. I wanted to have a place where I could look up the order of
-arguments of folds without browsing the documentation of the
+arguments of fold without browsing the documentation of the
 respective language over and over again.
 
 I thought about this little article for quite some time. I always
@@ -165,6 +165,27 @@ rev =
 Fold.rev // returns [5, 4, 3, 2, 1]
 ```
 
+# Emacs Lisp
+
+Emacs Lisp comes with multiple functions (e.g. `seq-reduce` or
+`cl-reduce`) that play the rold of fold. This section looks at the
+`seq-reduce` function.
+
+```elisp
+(require 'seq)
+(defun rev ()
+  (let ((collection '(1 2 3 4 5))
+        (initial-accumulator ())
+        (combining-function (lambda (current-accumulator current-item)
+                              (cons current-item current-accumulator))))
+    (seq-reduce
+     combining-function
+     collection
+     initial-accumulator)))
+
+(print (rev)) ; prints (5 4 3 2 1)
+```
+
 # F#
 
 The section on [Fold and Scan
@@ -309,13 +330,15 @@ below.
 | Clojure    | combining function | initial accumulator | collection          |
 | Elixir     | collection         | initial accumulator | combining function  |
 | Elm        | combining function | initial accumulator | collection          |
+| Emacs Lisp | combining function | collection          | initial accumulator |
 | F#         | combining function | initial accumulator | collection          |
 | Gleam      | collection         | initial accumulator | combining function  |
 | JavaScript | collection         | combining function  | initial accumulator |
 
-Clojure, Elm, and F# follow their functional roots. Although Elixir
-and Gleam are also functional languages, they moved the combining
-function to the end of the argument list.
+Clojure, Elm, and F# follow their functional roots. Their fold
+functions take the combining function as the first argument. Although
+Elixir and Gleam are also functional languages, they moved the
+combining function to the end of the argument list.
 
 **Combining Function**
 
@@ -324,6 +347,7 @@ function to the end of the argument list.
 | Clojure    | current accumulator | current item        |
 | Elixir     | current item        | current accumulator |
 | Elm        | current item        | current accumulator |
+| Emacs Lisp | current accumulator | current item        |
 | F#         | current accumulator | current item        |
 | Gleam      | current accumulator | current item        |
 | JavaScript | current accumulator | current item        |
