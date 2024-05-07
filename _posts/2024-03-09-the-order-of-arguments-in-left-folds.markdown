@@ -186,6 +186,34 @@ Emacs Lisp comes with multiple functions (e.g. `seq-reduce` or
 (print (rev)) ; prints (5 4 3 2 1)
 ```
 
+# Erlang
+
+  The standard fold function in Erlang is called `lists:foldl`.
+  [https://erlang.org/doc/man/lists.html](https://erlang.org/doc/man/lists.html)
+  documents the Erlang *lists* module including the `lists:foldl` and
+  `lists:foldr` functions.
+
+```erlang
+-module(fold).
+
+-export([run/0]).
+
+rev() ->
+    Collection = [1, 2, 3, 4, 5],
+    InitialAccumulator = [],
+    CombiningFunction =
+        fun(CurrentItem, CurrentAccumulator) -> [ CurrentItem | CurrentAccumulator ] end,
+
+    lists:foldl(
+      CombiningFunction,
+      InitialAccumulator,
+      Collection
+     ).
+
+run() ->
+    io:format("~p~n", [rev()]).
+```
+
 # F#
 
 The section on [Fold and Scan
@@ -331,11 +359,12 @@ below.
 | Elixir     | collection         | initial accumulator | combining function  |
 | Elm        | combining function | initial accumulator | collection          |
 | Emacs Lisp | combining function | collection          | initial accumulator |
+| Erlang     | combining function | initial accumulator | collection          |
 | F#         | combining function | initial accumulator | collection          |
 | Gleam      | collection         | initial accumulator | combining function  |
 | JavaScript | collection         | combining function  | initial accumulator |
 
-Clojure, Elm, and F# follow their functional roots. Their fold
+Clojure, Elm, Erlang, and F# follow their functional roots. Their fold
 functions take the combining function as the first argument. Although
 Elixir and Gleam are also functional languages, they moved the
 combining function to the end of the argument list.
@@ -348,6 +377,7 @@ combining function to the end of the argument list.
 | Elixir     | current item        | current accumulator |
 | Elm        | current item        | current accumulator |
 | Emacs Lisp | current accumulator | current item        |
+| Erlang     | current item        | current accumulator |
 | F#         | current accumulator | current item        |
 | Gleam      | current accumulator | current item        |
 | JavaScript | current accumulator | current item        |
