@@ -213,6 +213,30 @@ rev() ->
 run() ->
     io:format("~p~n", [rev()]).
 ```
+# Haskell
+
+The standard left fold function in Haskell is (not surprisingly)
+called *foldl*. Haskell has a lot more to say about folding than the
+rest of the programming languages considered so far. The [Reducing
+lists
+(folds)](https://hackage.haskell.org/package/base-4.19.1.0/docs/Data-List.html#g:3)
+section of the Data.List modules only shows the tip of the iceberg.
+
+```haskell
+rev :: [Int]
+rev =
+    let
+        collection = [1, 2, 3, 4, 5]
+        initialAccumulator = []
+        combiningFunction =
+          \currentAccumulator currentItem -> currentItem : currentAccumulator
+    in
+    foldl combiningFunction initialAccumulator collection
+
+main :: IO ()
+main = do
+    putStrLn $ show rev -- prints [5,4,3,2,1]
+```
 
 # F#
 
@@ -362,12 +386,13 @@ below.
 | Erlang     | combining function | initial accumulator | collection          |
 | F#         | combining function | initial accumulator | collection          |
 | Gleam      | collection         | initial accumulator | combining function  |
+| Haskell    | combining function | initial accumulator | collection          |
 | JavaScript | collection         | combining function  | initial accumulator |
 
-Clojure, Elm, Erlang, and F# follow their functional roots. Their fold
-functions take the combining function as the first argument. Although
-Elixir and Gleam are also functional languages, they moved the
-combining function to the end of the argument list.
+Clojure, Elm, Erlang, F#, and Haskell follow their functional
+roots. Their fold functions take the combining function as the first
+argument. Although Elixir and Gleam are also functional languages,
+they moved the combining function to the end of the argument list.
 
 **Combining Function**
 
@@ -380,6 +405,7 @@ combining function to the end of the argument list.
 | Erlang     | current item        | current accumulator |
 | F#         | current accumulator | current item        |
 | Gleam      | current accumulator | current item        |
+| Haskell    | current accumulator | current item        |
 | JavaScript | current accumulator | current item        |
 
 Apparently, it is more common to pass in the current accumulator as
