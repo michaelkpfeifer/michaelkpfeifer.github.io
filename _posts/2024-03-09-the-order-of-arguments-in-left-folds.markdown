@@ -361,14 +361,36 @@ const rev2 = () => {
 console.log(rev2());  // prints [ 5, 4, 3, 2, 1 ]
 ```
 
+# Ruby
+
+The standard fold method in Ruby is called *inject* and *reduce* is an
+alias. Ruby implements `inject` as a method on enumerable objects.
+[https://ruby-doc.org/3.3.1/Enumerable.html#method-i-inject](https://ruby-doc.org/3.3.1/Enumerable.html#method-i-inject)
+documents the `inject` method as part of the Enumerable module.
+
+```ruby
+def rev
+  collection = [1, 2, 3, 4, 5]
+  initial_accumulator = []
+  combining_function = lambda do |current_accumulator, current_item|
+    [current_item] + current_accumulator
+  end
+
+  collection.inject(initial_accumulator, &combining_function)
+end
+
+printf("%s\n", rev) # prints [5, 4, 3, 2, 1]
+```
+
 # Summary
 
-In JavaScript, fold is not implemented as a function but as a method
-on array objects. In this case, it is not possible to talk about the
-order of the three arguments passed into fold. It is still possible to
-talk about the order in which collection, combining function, and
-initial value of the accumulator appear in code. Which means that for
-JavaScript, the collection is considered the first argument.
+In JavaScript and Ruby, fold is not implemented as a function but as a
+method on array (like) objects. In this case, it is not possible to
+talk about the order of the three arguments passed into fold. It is
+still possible to talk about the order in which collection, combining
+function, and initial value of the accumulator appear in code. Which
+means that for JavaScript and Ruby, the collection is considered the
+first argument.
 
 There is a variant of fold in the Gleam standard library that accepts
 named arguments for the collection, the initial accumulator, and the
@@ -388,6 +410,7 @@ below.
 | Gleam      | collection         | initial accumulator | combining function  |
 | Haskell    | combining function | initial accumulator | collection          |
 | JavaScript | collection         | combining function  | initial accumulator |
+| Ruby       | collection         | initial accumulator | combining function  |
 
 Clojure, Elm, Erlang, F#, and Haskell follow their functional
 roots. Their fold functions take the combining function as the first
@@ -407,6 +430,7 @@ they moved the combining function to the end of the argument list.
 | Gleam      | current accumulator | current item        |
 | Haskell    | current accumulator | current item        |
 | JavaScript | current accumulator | current item        |
+| Ruby       | current accumulator | current item        |
 
 Apparently, it is more common to pass in the current accumulator as
 the first argument of the combining function. However, I cannot see
