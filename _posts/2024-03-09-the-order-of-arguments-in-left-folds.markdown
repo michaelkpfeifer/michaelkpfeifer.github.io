@@ -202,7 +202,9 @@ rev() ->
     Collection = [1, 2, 3, 4, 5],
     InitialAccumulator = [],
     CombiningFunction =
-        fun(CurrentItem, CurrentAccumulator) -> [ CurrentItem | CurrentAccumulator ] end,
+        fun(CurrentItem, CurrentAccumulator) ->
+                [ CurrentItem | CurrentAccumulator ]
+        end,
 
     lists:foldl(
       CombiningFunction,
