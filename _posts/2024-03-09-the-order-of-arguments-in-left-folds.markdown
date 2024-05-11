@@ -28,7 +28,7 @@ course).
 
 Why aren't we writing these wrappers? I guess one of the reasons is
 that we would have to remember the argument names. Which may be even
-harder than remembering the argument order.
+harder than remembering the argument order. Nevertheless, a nice idea.
 
 # Introduction
 
@@ -93,8 +93,8 @@ arguments right.
 # Clojure
 
 The standard fold function in Clojure is called *reduce*. There are
-lots of examples in
-[https://clojuredocs.org/clojure.core/reduce](https://clojuredocs.org/clojure.core/reduce).
+lots of examples in the [ClojureDocs
+page](https://clojuredocs.org/clojure.core/reduce).
 
 ```clojure
 (defn rev []
@@ -111,11 +111,9 @@ lots of examples in
 ```
 
 # Elixir
-
-The standard fold function in Elixir is called *Enum.reduce*.
-[https://hexdocs.pm/elixir/Enum.html#reduce/3](https://hexdocs.pm/elixir/Enum.html#reduce/3)
-provides a description of the `Enum.reduce` function (along with all
-the other functions in the `Enum` module).
+The standard fold function in Elixir is called *Enum.reduce*. It is
+[documented](https://hexdocs.pm/elixir/Enum.html#reduce/3) in the
+context of the Elixr Enum module.
 
 ```elixir
 def rev do
@@ -138,10 +136,9 @@ Reduce.rev() # prints [5, 4, 3, 2, 1]
 
 # Elm
 
-The standard fold function in Elm is called *List.foldl*.
-[https://package.elm-lang.org/packages/elm/core/latest/List](https://package.elm-lang.org/packages/elm/core/latest/List)
-documents.  the Elm *List* module (including the ÜList.foldl*
-function).
+The standard fold function in Elm is called *List.foldl*. It is
+documented in the Elm [List
+modulule](https://package.elm-lang.org/packages/elm/core/latest/List).
 
 ```elm
 module Fold exposing (rev)
@@ -167,9 +164,10 @@ Fold.rev // returns [5, 4, 3, 2, 1]
 
 # Emacs Lisp
 
-Emacs Lisp comes with multiple functions (e.g. `seq-reduce` or
-`cl-reduce`) that play the rold of fold. This section looks at the
-`seq-reduce` function.
+Emacs Lisp comes with multiple functions (e.g. *seq-reduce* or
+*cl-reduce*) that play the rold of fold. This section looks at the
+*seq-reduce* function whose documentation is available within Emacs
+itself.
 
 ```elisp
 (require 'seq)
@@ -188,10 +186,9 @@ Emacs Lisp comes with multiple functions (e.g. `seq-reduce` or
 
 # Erlang
 
-  The standard fold function in Erlang is called `lists:foldl`.
-  [https://erlang.org/doc/man/lists.html](https://erlang.org/doc/man/lists.html)
-  documents the Erlang *lists* module including the `lists:foldl` and
-  `lists:foldr` functions.
+The standard fold function in Erlang is called *foldl*. It is
+documented in the Erlang [lists
+module](https://erlang.org/doc/man/lists.html).
 
 ```erlang
 -module(fold).
@@ -222,7 +219,7 @@ called *foldl*. Haskell has a lot more to say about folding than the
 rest of the programming languages considered so far. The [Reducing
 lists
 (folds)](https://hackage.haskell.org/package/base-4.19.1.0/docs/Data-List.html#g:3)
-section of the Data.List modules only shows the tip of the iceberg.
+section of the Data.List module only shows the tip of the iceberg.
 
 ```haskell
 rev :: [Int]
@@ -244,7 +241,7 @@ main = do
 
 The section on [Fold and Scan
 Operations](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/lists#fold-and-scan-operations)
-of the F# documentation on lists explains how to use the `fold`
+of the F# documentation on lists explains how to use the *fold*
 function. Microsoft provides a lot of documentation. The details may
 be somewhat hard to find.
 
@@ -262,10 +259,10 @@ printfn "%A" rev // prints [5; 4; 3; 2; 1]
 
 # Gleam
 
-The standard fold function in Gleam is actually called *fold*. (Great name.)
-[https://hexdocs.pm/gleam_stdlib/gleam/list.html#fold](https://hexdocs.pm/gleam_stdlib/gleam/list.html#fold)
-provides a short description of fold in the context of Gleam's list
-module.
+The standard fold function in Gleam is actually called *fold*. (Great
+name.) It is
+[documented](https://hexdocs.pm/gleam_stdlib/gleam/list.html#fold) in
+the context of the Gleam list module.
 
 ```gleam
 import gleam/list
@@ -284,7 +281,7 @@ pub fn rev1() {
 io.debug(rev1()) // prints [5, 4, 3, 2, 1]
 ```
 
-This looks familiar. However, Gleam's `fold` function can also be
+This looks familiar. However, Gleam's fold function can also be
 called using named arguments.
 
 ```gleam
@@ -308,7 +305,7 @@ pub fn rev2() {
 io.debug(rev2()) // prints [5, 4, 3, 2, 1]
 ```
 
-With this way of calling `fold`, the order of arguments is irrelevant
+With this way of calling fold, the order of arguments is irrelevant
 and the keys clearly describe the purpose of the respective argument.
 (It is, however, still required to remember the order of arguments of
 the combining function.)
@@ -316,9 +313,11 @@ the combining function.)
 # JavaScript
 
 The standard fold method in JavaScript is called *reduce*. JavaScript
-implements `reduce` as a method on arrays and not as a function. The
-implementation is very flexible, details can be found in
-[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce).
+implements reduce as a method on arrays and not as a function. The
+implementation is very flexible,
+[details](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
+can be found on the Mozilla Developer Network
+
 
 ```js
 const rev1 = () => {
@@ -337,8 +336,8 @@ console.log(rev1()); // prints [ 5, 4, 3, 2, 1 ]
 
 JavaScript does not support named parameters. However, a very similar
 behaviour can be achieved by using object literals and destructuring.
-This can be used to write a wrapper around `reduce` that nearly looks
-like the Gleam implementation of `fold` using named parameters..
+This can be used to write a wrapper around reduce that nearly looks
+like the Gleam implementation of fold using named parameters..
 
 ```js
 const reduceWithNamedArgs = ({ over, from, withFn }) => {
@@ -366,9 +365,10 @@ console.log(rev2());  // prints [ 5, 4, 3, 2, 1 ]
 # Ruby
 
 The standard fold method in Ruby is called *inject* and *reduce* is an
-alias. Ruby implements `inject` as a method on enumerable objects.
-[https://ruby-doc.org/3.3.1/Enumerable.html#method-i-inject](https://ruby-doc.org/3.3.1/Enumerable.html#method-i-inject)
-documents the `inject` method as part of the Enumerable module.
+alias. Ruby implements inject as a method on enumerable objects.  It
+is
+[documented](https://ruby-doc.org/3.3.1/Enumerable.html#method-i-inject)
+as a part of the Enumerable module.
 
 ```ruby
 def rev
@@ -387,7 +387,7 @@ printf("%s\n", rev) # prints [5, 4, 3, 2, 1]
 # Summary
 
 In JavaScript and Ruby, fold is not implemented as a function but as a
-method on array (like) objects. In this case, it is not possible to
+method on array (like) objects. In these cases, it is not possible to
 talk about the order of the three arguments passed into fold. It is
 still possible to talk about the order in which collection, combining
 function, and initial value of the accumulator appear in code. Which
@@ -444,4 +444,4 @@ There is not much of a conclusion. The only recognizable pattern is
 that most functional languages take the combining function as first
 argument, the initial value as second argument, and the collection as
 last argument. But then, even in those functional languages, the order
-of arguments in the combining functino differs.
+of arguments in the combining function differs.
