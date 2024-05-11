@@ -210,7 +210,7 @@ rev() ->
      ).
 
 run() ->
-    io:format("~p~n", [rev()]).
+    io:format("~p~n", [rev()]). % prints [5,4,3,2,1]
 ```
 # Haskell
 
