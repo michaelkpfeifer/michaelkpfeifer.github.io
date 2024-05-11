@@ -435,3 +435,11 @@ they moved the combining function to the end of the argument list.
 Apparently, it is more common to pass in the current accumulator as
 the first argument of the combining function. However, I cannot see
 any reason why this should be the preferred way of doing things.
+
+**Conclusion**
+
+There is not much of a conclusion. The only recognizable pattern is
+that most functional languages take the combining function as first
+argument, the initial value as second argument, and the collection as
+last argument. But then, even in those functional languages, the order
+of arguments in the combining functino differs.
