@@ -116,22 +116,26 @@ The standard fold function in Elixir is called *Enum.reduce*. It is
 context of the Elixr Enum module.
 
 ```elixir
-def rev do
-  collection = [1, 2, 3, 4, 5]
-  initial_accumulator = []
+defmodule Reduce do
+  def rev do
+    collection = [1, 2, 3, 4, 5]
+    initial_accumulator = []
 
-  combining_function = fn current_item, current_accumulator ->
-    [current_item | current_accumulator]
+    combining_function = fn current_item, current_accumulator ->
+      [current_item | current_accumulator]
+    end
+
+    Enum.reduce(
+      collection,
+      initial_accumulator,
+      combining_function
+    )
   end
 
-  Enum.reduce(
-    collection,
-    initial_accumulator,
-    combining_function
-  )
+  def run do
+    IO.inspect(rev()) # prints [5, 4, 3, 2, 1]
+  end
 end
-
-Reduce.rev() # prints [5, 4, 3, 2, 1]
 ```
 
 # Elm
