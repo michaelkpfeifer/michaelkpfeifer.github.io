@@ -16,10 +16,10 @@ allowing them to schedule meetings on 2021-02-31 08:00 UTC. Other
 programming languages complain when they are told to create dates from
 invalid input.
 
-The purpose of this little article is to get an overview of how
-different programming languages behave when they are asked to create
-some data structure representing the date 2021-02-31 or the time
-2021-02-31 08:00 UTC. (I don't want to deal with time zones.)
+The purpose of this little article is to see how some programming
+languages behave when they are asked to create some data structure
+representing the date 2021-02-31 or the time 2021-02-31 08:00 UTC. (I
+don't want to deal with time zones.)
 
 I am not an expert in most of the programming languages i will be
 talking about.  If you find an error, or if I missed some interesting
@@ -44,41 +44,47 @@ creating dates and times.  But this may not even be an idiomatic way.
 
 # Elixir
 
-Elixir has a notion of dates, times, and datetimes (i.e. time stamps).
+Elixir has a notion of dates, times, and datetimes (i.e. timestamps).
 Dates can be created using `Date.new/3`, times can be created using
-`Time.new/3` and time stamps can be created using `DateTime.new/4`.
+`Time.new/3` and timestamps can be created using `DateTime.new/4`.
 
 {% highlight elixir %}
-# Elixir Date.new/3 with valid input
-date = Date.new(2021, 1, 15)
+defmodule ImpossibleDates do
+  def examples do
+    # Elixir Date.new/3 with valid input
+    valid_date = Date.new(2021, 1, 15)
 
-# "IO.inspect(date)" prints {:ok, ~D[2021-01-15]}
+    IO.inspect(valid_date) # prints {:ok, ~D[2021-01-15]}
+
+    # Elixir Date.new/3 with invalid input
+    invalid_date = Date.new(2021, 2, 30)
+
+    IO.inspect(invalid_date) # prints {:error, :invalid_date}
+  end
+end
 {% endhighlight %}
 
-{% highlight elixir %}
-# Elixir Date.new/3 with invalid input
-date = Date.new(2021, 2, 30)
-
-# "IO.inspect(date)" prints {:error, :invalid_date}
-{% endhighlight %}
-
-Creating a time stamp requires a date and a time.
+Creating a timestamp requires a date and a time.
 
 {% highlight elixir %}
-# Elixir DateTime.new/4 with valid input
-{:ok, date} = Date.new(2021, 1, 15)
-{:ok, time} = Time.new(8, 0, 0)
-time_stamp = DateTime.new(date, time)
+defmodule ImpossibleTimes do
+  def examples do
+    # Elixir DateTime.new/2 with valid input
+    {:ok, date} = Date.new(2021, 1, 15)
+    {:ok, time} = Time.new(8, 0, 0)
+    valid_timestamp = DateTime.new(date, time)
 
-# "IO.inspect(time_stamp)" prints {:ok, ~U[2021-01-15 08:00:00Z]}
+    IO.inspect(valid_timestamp) # prints {:ok, ~U[2021-01-15 08:00:00Z]}
+  end
+end
 {% endhighlight %}
 
 When no time zone is specified in the `DateTime.new/4` function,
 Elixir assumes UTC.
 
 There is no way to write down the code that would lead to an invalid
-time stamp because we would need to pass in an invalid date. And, as
-we have seen, we cannot create invalid dates.
+timestamp because we would need to pass in an invalid date. And, as we
+have seen, we cannot create invalid dates.
 
 # Erlang
 
@@ -94,25 +100,28 @@ date tuple must denote a valid date".
 A time value is represented by a tuple consisting ot hour, minute, and
 second.
 
-A time stamp is represented by a tuple consisting of a date and a
+A timestamp is represented by a tuple consisting of a date and a
 time. There is no room for a time zone in this data structure. Such a
-time stamp represents a time in a timezone that is implicit to the
+timestamp represents a time in a timezone that is implicit to the
 application.
 
 Creating valid and invalid dates is exceptionally simple.
 
 {% highlight erlang %}
-%% Erlang valid date as tuple
-Date = {2021, 1, 15}.
+-module(impossible_dates).
 
-%% "io:format("~p~n", [Date])." prints {2021,1,15}
-{% endhighlight %}
+-export([examples/0]).
 
-{% highlight erlang %}
-%% Erlang invalid date as tuple
-Date = {2021, 2, 30}.
+examples() ->
+    %% Erlang valid date as tuple
+    ValidDate = {2021, 1, 15},
 
-%% "io:format("~p~n", [Date])." prints {2021,2,30}
+    io:format("~p~n", [ValidDate]), % prints {2021,1,15}
+
+    %% Erlang invalid date as tuple
+    InvalidDate = {2021, 2, 30},
+
+    io:format("~p~n", [InvalidDate]). % prints {2021,2,30}
 {% endhighlight %}
 
 Erlang provides the `calendar:valid_date/1` and
@@ -123,35 +132,42 @@ Let's see what happens if we attempt to do artihmetic with invalid
 dates. We will try to add one day to 2021-1-15 and to 2021-2-30.
 
 {% highlight erlang %}
-%% Erlang valid date as tuple
-Date = {2021, 1, 15}.
-DatePlus1 =
-  calendar:gregorian_days_to_date(calendar:date_to_gregorian_days(Date) + 1).
+-module(date_arithmetics).
 
-%% "io:format("~p~n", [DatePlus1])." prints {2021,1,16}
+-export([examples/0]).
+
+examples() ->
+    %% Erlang valid date as tuple
+    ValidDate = {2021, 1, 15},
+    ValidDatePlus1 =
+        calendar:gregorian_days_to_date(
+          calendar:date_to_gregorian_days(ValidDate) + 1
+        ),
+
+    io:format("~p~n", [ValidDatePlus1]), % prints {2021,1,16}
+
+    %% Erlang invalid date as tuple
+    InvalidDate = {2021, 2, 30},
+    try
+        InvalidDatePlus1 =
+            calendar:gregorian_days_to_date(
+              calendar:date_to_gregorian_days(InvalidDate) + 1
+            ),
+        io:format("~p~n", [InvalidDatePlus1])
+    catch
+        error:Error -> io:format("~p~n", [Error]) % prints if_clause
+    end.
 {% endhighlight %}
 
-{% highlight erlang %}
- %% Erlang invalid date as tuple
- Date = {2021, 2, 30}.
- try
-   DatePlus1 =
-     calendar:gregorian_days_to_date(calendar:date_to_gregorian_days(Date) + 1)
- catch
-   error -> io:format("~p~n", error)
- end.
+The error is not particularly enlightening, but making Erlang errors
+more readable is not the subject of the current article.
 
- %% prints
- %% ** exception error: no true branch found when evaluating an if expression
- %%      in function  calendar:date_to_gregorian_days/3 (calendar.erl, line 134)
-{% endhighlight %}
-
-There is nothing that distinguishes any tuple from a tuple
+There is nothing that distinguishes some tuple from a tuple
 representing a date. `{2021, 2, 30}` is a perfectly fine tuple but it
 is simply not a representation of a date.
 
-Valid time stamps depend on valid dates. There is no need to try to
-create a time stamp representing 2021-02-30 08:00. Of course, we can
+Valid timestamps depend on valid dates. There is no need to try to
+create a timestamp representing 2021-02-30 08:00. Of course, we can
 easily write down a tuple of tuples such as
 
 {% highlight erlang %}
@@ -160,11 +176,11 @@ easily write down a tuple of tuples such as
 
 and insist that this is a representation of an invalid
 timestamp. Whether this is true is probably a philosophical
-question. (And I would argue that this not a representation of a time
-stamp at all.)
+question. (And I would argue that this not a representation of a
+timetamp at all.)
 
 Erlang is a little bit unusual in this list of programming languages
-since dates and time stamps are created by creating the corresoponding
+since dates and timestamps are created by creating the corresoponding
 representation without the help of any constructor functions.
 
 # Haskell
@@ -179,19 +195,20 @@ year, the month, and the day. Months are counted from 1.
 `fromGregorian` returns a value of type `Day`.
 
 {% highlight haskell %}
+import Data.Time
+
 -- Haskell fromGregorian with valid input
-import Data.Time
-date = fromGregorian 2021 1 15
+validDate :: Day
+validDate = fromGregorian 2021 1 15
 
--- "print date" prints "2021-01-15"
-{% endhighlight %}
-
-{% highlight haskell %}
 -- Haskell fromGregorian with invalid input
-import Data.Time
-date = fromGregorian 2021 2 30
+invalidDate :: Day
+invalidDate = fromGregorian 2021 2 30
 
--- "print date" prints "2021-02-28"
+main :: IO ()
+main = do
+    putStrLn $ show validDate -- prints 2021-01-15
+    putStrLn $ show invalidDate -- prints 2021-02-28
 {% endhighlight %}
 
 Really? Just return the last day of the month? This is surprising
@@ -201,71 +218,63 @@ function that works similarly to `fromGregorian` but returns a `Maybe
 Day` value.
 
 {% highlight haskell %}
--- Haskell fromGregorianValid with invalid input
 import Data.Time
-maybeDate = fromGregorianValid 2021 2 30
 
--- "print maybeDate" prints Nothing
+-- Haskell fromGregorianValid with invalid input
+maybeInvalidDate :: Maybe Day
+maybeInvalidDate = fromGregorianValid 2021 2 30
+
+main :: IO ()
+main = do
+    putStrLn $ show maybeInvalidDate -- prints Nothing
 {% endhighlight %}
 
-UTC time stamps in Haskell are represented by values of the `UTCTime`
+UTC timestamps in Haskell are represented by values of the `UTCTime`
 type.  And `UTCTime` values are built from a `Day` value and an offset
 that stores how many seconds of the given day have passed.
 
 Creating `UTCTime` values is easy when using `fromGregorian` since
 `fromGregorian` returns a Day value.
 
-{% highlight haskell %}
--- Haskell fromGregorian with invalid input
-import Data.Time
-utcTime = UTCTime (fromGregorian 2021 2 30) (8 * 60 * 60)
-
--- "print utcTime" prints "2021-02-28 08:00:00 UTC"
-{% endhighlight %}
-
 Things become somewhat more complicated when using
 `fromGregorianValid` to construct a Day value because
 `fromGregorianValid` returns a Maybe Day value.
 
-Note that the `:{` and `:}` tokens in the code fragments below do not
-really belong to the code. The are used to allow line breaks in GHCi,
-the interactive interface to the Glasgow Haskell compiler.
-
 {% highlight haskell %}
+import Data.Time
+
+-- Haskell fromGregorian with invalid input
+validUtcTime :: UTCTime
+validUtcTime =
+  UTCTime (fromGregorian 2021 2 30) (8 * 60 * 60)
+
 -- Haskell fromGregorianValid with valid input
-import Data.Time
-:{
-maybeUtcTime = case (fromGregorianValid 2021 1 15) of
-                 Nothing -> Nothing
-                 Just day -> Just $ UTCTime day (8 * 60 * 60)
-:}
+maybeValidUtcTime :: Maybe UTCTime
+maybeValidUtcTime =
+  case (fromGregorianValid 2021 1 15) of
+    Nothing -> Nothing
+    Just day -> Just $ UTCTime day (8 * 60 * 60)
 
--- "print maybeUtcTime" prints "Just 2021-01-15 08:00:00 UTC"
-{% endhighlight %}
-
-{% highlight haskell %}
 -- Haskell fromGregorianValid with invalid input
-import Data.Time
-:{
-maybeUtcTime = case (fromGregorianValid 2021 2 30) of
-                 Nothing -> Nothing
-                 Just day -> Just $ UTCTime day (8 * 60 * 60)
-:}
+maybeInvalidUtcTime :: Maybe UTCTime
+maybeInvalidUtcTime =
+  case (fromGregorianValid 2021 2 30) of
+    Nothing -> Nothing
+    Just day -> Just $ UTCTime day (8 * 60 * 60)
 
--- "print maybeUtcTime" prints Nothing
+main :: IO ()
+main = do
+  putStrLn $ show validUtcTime -- prints 2021-02-28 08:00:00 UTC
+  putStrLn $ show maybeValidUtcTime -- prints Just 2021-01-15 08:00:00 UTC
+  putStrLn $ show maybeInvalidUtcTime -- prints Nothing
 {% endhighlight %}
-
-
-
-
-
 
 # Java
 
 The [Java SE 8 Date and
 Time](https://www.oracle.com/technical-resources/articles/java/jf14-date-time.html)
 documentation seems to be a useful introduction to date and time
-handling in Java.
+handling in Java. (I know that Java 8 is not the latest version.)
 
 Java ships with the `LocalDate` class whose purpose is to represent
 dates without time zones.  Exactly what we want for the first test.
@@ -275,82 +284,59 @@ month, and day. Months are counted from 1, so 1 corresponds to January
 and 12 corresponds to December.
 
 {% highlight java %}
-// Java Localdate.of with valid input
 import java.time.LocalDate;
 
-class SomeDate {
+class ImpossibleDates {
     public static void main(String[] args) {
-        LocalDate someDate = LocalDate.of(2021, 1, 15);
-        System.out.println(someDate);
-    }
-}
 
-// prints "2021-01-15"
-{% endhighlight %}
+        // Java LocalDate.of with valid input
+        LocalDate validDate = LocalDate.of(2021, 1, 15);
 
-{% highlight java %}
-// Java Localdate.of with invalid input
-import java.time.LocalDate;
+        System.out.println(validDate); // prints "2021-01-15"
 
-class SomeDate {
-    public static void main(String[] args) {
+        // Java Localdate.of with invalid input
         try {
-            LocalDate someDate = LocalDate.of(2021, 2, 30);
-            System.out.println(someDate);
+            LocalDate invalidDate = LocalDate.of(2021, 2, 30);
+            System.out.println(invalidDate);
         }
         catch(Exception e) {
-            System.out.println(e);
+            System.out.println(e); // prints java.time.DateTimeException: ...
         }
     }
 }
-
-// raises a "java.time.DateTimeException: Invalid date 'FEBRUARY 30'" exception
 {% endhighlight %}
 
-Instances of the `LocalDateTime` class represent time stamps in local
+Instances of the `LocalDateTime` class represent timestamps in local
 time. They do not have any notion of a time zone (so they are not too
 useful when trying to create an object that represents 2021-02-31
 08:00 UTC. Fortunately, there is the `ZonedDateTime` class that adds
 time time zones to `LocalDateTime`.
 
 {% highlight java %}
-// Java LocaldateTime.of with valid input
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.ZoneId;
 
-class SomeTime {
+class ImpossibleTimes {
     public static void main(String[] args) {
-        LocalDateTime someLocalTime = LocalDateTime.of(2021, 1, 15, 8, 0, 0);
-        ZonedDateTime someZonedTime =
-            ZonedDateTime.of(someLocalTime, ZoneId.of("UTC"));
-        System.out.println(someZonedTime);
-    }
-}
 
-// prints "2021-01-15T08:00Z[UTC]"
-{% endhighlight %}
+        // Java LocaldateTime.of with valid input
+        LocalDateTime validLocalTime = LocalDateTime.of(2021, 1, 15, 8, 0, 0);
+        ZonedDateTime validZonedTime =
+            ZonedDateTime.of(validLocalTime, ZoneId.of("UTC"));
+        System.out.println(validZonedTime); // prints 2021-01-15T08:00Z[UTC]
 
-{% highlight java %}
-// Java LocaldateTime.of with invalid input
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.ZoneId;
-
-class SomeTime {
-    public static void main(String[] args) {
+        // Java LocaldateTime.of with invalid input
         try {
-            LocalDateTime someLocalTime = LocalDateTime.of(2021, 2, 30, 8, 0, 0);
-            ZonedDateTime someZonedTime =
-                ZonedDateTime.of(someLocalTime, ZoneId.of("UTC"));
-            System.out.println(someZonedTime);
+            LocalDateTime invalidLocalTime = LocalDateTime.of(2021, 2, 30, 8, 0, 0);
+            ZonedDateTime invalidZonedTime =
+                ZonedDateTime.of(invalidLocalTime, ZoneId.of("UTC"));
+            System.out.println(invalidZonedTime);
         } catch(Exception e) {
-            System.out.println(e);
+            System.out.println(e); // prints java.time.DateTimeException: ...
         }
     }
 }
-
-// raises a "java.time.DateTimeException: Invalid date 'FEBRUARY 30'" exception
 {% endhighlight %}
 
 In some sense, Java does exactly what is expected from the big
@@ -359,7 +345,7 @@ expects the user to handle the resulting errors.
 
 # JavaScript
 
-JavaScript does not distinguish between dates and times.  The
+JavaScript does not distinguish between dates and times. The
 JavaScript `Date` object represents a single moment in
 time. Internally, it stores milliseconds since 1 January 1970 UTC.
 
@@ -369,38 +355,34 @@ and 11 represents December.
 
 {% highlight js %}
 // new Date with valid input
-const date = new Date(2021, 0, 15);
+const validDate = new Date(2021, 0, 15);
 
-// "console.log(date.toDateString());" prints "Fri Jan 15 2021"
-{% endhighlight %}
+console.log(validDate.toDateString()); // prints "Fri Jan 15 2021"
 
-{% highlight js %}
 // new Date with invalid input
-const date = new Date(2021, 1, 30);
+const invalidDate = new Date(2021, 1, 30);
 
-// "console.log(date.toDateString());" prints "Tue Mar 02 2021"
+console.log(invalidDate.toDateString()); // prints "Tue Mar 02 2021"
 {% endhighlight %}
 
 Since JavaScript does not distinguish between dates and times, it
 would be very surprising to see a different behavior when passing in
 hour, minutes, and seconds in addition to year, month, and day.
 
-Note that the examples below use `Date.UTC()` method to compute the
-number of milliseconds since January 1, 1970, 00:00:00 UTC.  This
+Note that the examples below use the `Date.UTC()` method to compute
+the number of milliseconds since January 1, 1970, 00:00:00 UTC.  This
 number is then then be passed into the `Date` constructor.
 
 {% highlight js %}
 // new Date with valid input
-const date = new Date(Date.UTC(2021, 0, 15, 8, 0, 0));
+const validDate = new Date(Date.UTC(2021, 0, 15, 8, 0, 0));
 
-// "console.log(date.toISOString());" prints 2021-01-15T08:00:00.000Z
-{% endhighlight %}
+console.log(validDate.toISOString()); // prints 2021-01-15T08:00:00.000Z
 
-{% highlight js %}
 // new Date with invalid input
-const date = new Date(Date.UTC(2021, 1, 30, 8, 0, 0));
+const invalidDate = new Date(Date.UTC(2021, 1, 30, 8, 0, 0));
 
-// "console.log(date.toisostring());" prints 2021-03-02t08:00:00.000z
+console.log(invalidDate.toISOString()); // prints 2021-03-02T08:00:00.000Z
 {% endhighlight %}
 
 Apparently, JavaScript wants to spare its users from negative
@@ -412,57 +394,51 @@ Ruby provides a `Date`, a `DateTime`, and a `Time` class.
 
 `Date` objects store simple dates without seconds or time zones.
 
-`Time` objects store time stamps.
+`Time` objects store timestamps.
 
 And `DateTime` objects are deprecated (compare [class
 DateTime](https://docs.ruby-lang.org/en/master/DateTime.html)), so we
 will look at `Date` and `Time`.
 
 The constructor of the `Date` class takes three arguments: year,
-month, date. Months are indexed from 1.
+month, and date. Months are indexed from 1.
 
 {% highlight ruby %}
-# Date.new with valid input
 require 'date'
+
+# Date.new with valid input
 date = Date.new(2021, 1, 15)
 
-# "puts date" prints "2021-01-15"
-{% endhighlight %}
+puts date # prints 2021-01-15
 
-{% highlight ruby %}
 # Date.new with invalid input
-require 'date'
-date = begin
+begin
   Date.new(2021, 2, 30)
 rescue => e
-  e
+  puts e # prints invalid date
 end
-
-# "puts date" prints "#<Date::Error: invalid date>"
 {% endhighlight %}
 
 And now, UTC timestamps. The `Time.utc` class method takes the six
-expected arguments in the expected order and returns time a stamp in
+expected arguments in the expected order and returns a timestamp in
 the UTC time zone.
 
 {% highlight ruby %}
-# Time.utc with valid input
 require 'date'
+
+# Time.utc with valid input
 timestamp = Time.utc(2021, 1, 15, 8, 0, 0)
 
-# "puts timestamp" prints "2021-01-15 08:00:00 UTC"
-{% endhighlight %}
+puts timestamp # prints "2021-01-15 08:00:00 UTC"
 
-{% highlight ruby %}
 # Time.utc with invalid input
-require 'date'
 timestamp = Time.utc(2021, 2, 30, 8, 0, 0)
 
-# "puts timestamp" prints "2021-03-02 08:00:00 UTC"
+puts timestamp # prints "2021-03-02 08:00:00 UTC"
 {% endhighlight %}
 
 `Date.new` raises an exception where `Time.utc` happily creates some
-time stamp in the following month.
+timestamp in the following month.
 
 # Summary
 
@@ -480,9 +456,9 @@ The following table is a collection of the results.
 | Java Date                     | raises exception                              |
 | Java UTC Time                 | raises exception                              |
 | JavaScript Date               | rolls over to some valid date                 |
-| JavaScript UTC Time           | rolls over to some valid time stamp           |
+| JavaScript UTC Time           | rolls over to some valid timestamp            |
 | Ruby Date                     | raises exception                              |
-| Ruby UTC Time                 | rolls over to some valid time stamp           |
+| Ruby UTC Time                 | rolls over to some valid timestamp            |
 |-------------------------------+-----------------------------------------------+
 
 # Conclusion
