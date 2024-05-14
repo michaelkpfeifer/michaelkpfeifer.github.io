@@ -53,7 +53,7 @@ the result to be `[3, 7]`.  We ignore the last item in the given list
 because there is no other number we could add.
 
 {% highlight elixir %}
-defmodule Chunk do
+defmodule ChunkConsecutive do
   def add_consecutive([e1, e2 | rest]) do
     [e1 + e2 | add_consecutive(rest)]
   end
@@ -65,9 +65,12 @@ defmodule Chunk do
   def add_consecutive([]) do
     []
   end
-end
 
-Chunk.add_consecutive([1, 2, 3, 4, 5])
+  def run do
+    # prints [3, 7]
+    IO.inspect(ChunkConsecutive.add_consecutive([1, 2, 3, 4, 5]))
+  end
+end
 {% endhighlight %}
 
 In each recursive step, we consume the first two items of the given
@@ -83,7 +86,7 @@ list items overlap. For the list `[1, 2, 3, 4, 5]`, we expect the
 result to be `[3, 5, 7, 9]`.
 
 {% highlight elixir %}
-defmodule Chunk do
+defmodule ChunkOverlapping do
   def add_overlapping([e1, e2 | rest]) do
     [e1 + e2 | add_overlapping([e2 | rest])]
   end
@@ -95,9 +98,12 @@ defmodule Chunk do
   def add_overlapping([]) do
     []
   end
-end
 
-Chunk.add_overlapping([1, 2, 3, 4, 5])
+  def run do
+    # prints [3, 5, 7, 9]
+    IO.inspect(ChunkOverlapping.add_overlapping([1, 2, 3, 4, 5]))
+  end
+end
 {% endhighlight %}
 
 Again, we take the first two items of the given list naming them `e1`
@@ -135,25 +141,27 @@ problems, Elixir provides solutions out of the box and the solutions
 of our little problems become a matter of function composition.
 
 {% highlight elixir %}
-defmodule Chunk do
+defmodule ChunkUsingEnum do
   def sum_consecutive(list) do
     Enum.chunk_every(list, 2, 2, :discard)
-    |> Enum.map(fn([fst, lst]) -> fst + lst end)
+    |> Enum.map(fn [fst, lst] -> fst + lst end)
   end
-end
 
-Chunk.sum_consecutive([1, 2, 3, 4, 5])
-{% endhighlight %}
-
-{% highlight elixir %}
-defmodule Chunk do
   def sum_overlapping(list) do
     Enum.chunk_every(list, 2, 1, :discard)
-    |> Enum.map(fn([fst, lst]) -> fst + lst end)
+    |> Enum.map(fn [fst, lst] -> fst + lst end)
+  end
+
+  def run_sum_consecutive do
+    # prints [3, 7]
+    IO.inspect(ChunkUsingEnum.sum_consecutive([1, 2, 3, 4, 5]))
+  end
+
+  def run_sum_overlapping do
+    # prints [3, 5, 7, 9]
+    IO.inspect(ChunkUsingEnum.sum_overlapping([1, 2, 3, 4, 5]))
   end
 end
-
-Chunk.sum_overlapping([1, 2, 3, 4, 5])
 {% endhighlight %}
 
 The [documentation of the Elixir Enum
