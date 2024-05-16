@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Case Equality for Proc Objects in Ruby
-date:       Thu May 16 10:48:12 PM CEST 2024
+date:       Thu May 16 01:48:12 PM CEST 2024
 categories: Programming
 ---
 
