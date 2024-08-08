@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Folding from the Right
-date:       Thu Aug  8 09:26:03 PM CEST 2024
+date:       Thu Aug  7 09:26:03 PM CEST 2024
 categories: Programming
 ---
 
