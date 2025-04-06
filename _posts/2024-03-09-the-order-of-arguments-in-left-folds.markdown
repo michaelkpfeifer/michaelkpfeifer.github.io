@@ -4,7 +4,7 @@ title:      The Order of Arguments in Left Folds
 date:       Sat Mar 09 12:00:00 PM CET 2024
 categories: Programming
 ---
-# Preface
+## Preface
 
 Over the years, I have developed a general interest in programming
 languages. I wanted to have a place where I could look up the order of
@@ -30,7 +30,7 @@ Why aren't we writing these wrappers? I guess one of the reasons is
 that we would have to remember the argument names. Which may be even
 harder than remembering the argument order. Nevertheless, a nice idea.
 
-# Introduction
+## Introduction
 
 Functions of the
 [fold](https://en.wikipedia.org/wiki/fold_(higher-order_function))
@@ -90,7 +90,7 @@ an array), the order of arguments in the combining function is
 relevant, so these examples help make sure that we get the order or
 arguments right.
 
-# Clojure
+## Clojure
 
 The standard fold function in Clojure is called *reduce*. There are
 lots of examples in the [ClojureDocs
@@ -110,7 +110,7 @@ page](https://clojuredocs.org/clojure.core/reduce).
 (println (rev)) ; prints (5 4 3 2 1)
 ```
 
-# Elixir
+## Elixir
 The standard fold function in Elixir is called *Enum.reduce*. It is
 [documented](https://hexdocs.pm/elixir/Enum.html#reduce/3) in the
 context of the Elixr Enum module.
@@ -138,7 +138,7 @@ defmodule Reduce do
 end
 ```
 
-# Elm
+## Elm
 
 The standard fold function in Elm is called *List.foldl*. It is
 documented in the Elm [List
@@ -166,7 +166,7 @@ rev =
 Fold.rev // returns [5, 4, 3, 2, 1]
 ```
 
-# Emacs Lisp
+## Emacs Lisp
 
 Emacs Lisp comes with multiple functions (e.g. *seq-reduce* or
 *cl-reduce*) that play the rold of fold. This section looks at the
@@ -188,7 +188,7 @@ itself.
 (print (rev)) ; prints (5 4 3 2 1)
 ```
 
-# Erlang
+## Erlang
 
 The standard fold function in Erlang is called *foldl*. It is
 documented in the Erlang [lists
@@ -216,7 +216,7 @@ rev() ->
 run() ->
     io:format("~p~n", [rev()]). % prints [5,4,3,2,1]
 ```
-# Haskell
+## Haskell
 
 The standard left fold function in Haskell is (not surprisingly)
 called *foldl*. Haskell has a lot more to say about folding than the
@@ -241,7 +241,7 @@ main = do
     putStrLn $ show rev -- prints [5,4,3,2,1]
 ```
 
-# F#
+## F#
 
 The section on [Fold and Scan
 Operations](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/lists#fold-and-scan-operations)
@@ -261,7 +261,7 @@ let rev =
 printfn "%A" rev // prints [5; 4; 3; 2; 1]
 ```
 
-# Gleam
+## Gleam
 
 The standard fold function in Gleam is actually called *fold*. (Great
 name.) It is
@@ -314,7 +314,7 @@ and the keys clearly describe the purpose of the respective argument.
 (It is, however, still required to remember the order of arguments of
 the combining function.)
 
-# JavaScript
+## JavaScript
 
 The standard fold method in JavaScript is called *reduce*. JavaScript
 implements reduce as a method on arrays and not as a function. The
@@ -366,7 +366,7 @@ const rev2 = () => {
 console.log(rev2());  // prints [ 5, 4, 3, 2, 1 ]
 ```
 
-# Ruby
+## Ruby
 
 The standard fold method in Ruby is called *inject* and *reduce* is an
 alias. Ruby implements inject as a method on enumerable objects.  It
@@ -388,7 +388,7 @@ end
 printf("%s\n", rev) # prints [5, 4, 3, 2, 1]
 ```
 
-# Summary
+## Summary
 
 In JavaScript and Ruby, fold is not implemented as a function but as a
 method on array (like) objects. In these cases, it is not possible to

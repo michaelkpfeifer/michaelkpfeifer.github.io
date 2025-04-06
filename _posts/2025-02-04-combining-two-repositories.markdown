@@ -7,7 +7,7 @@ categories: Programming
 
 <small style="background-color: #e4e4e4">Comment</small>
 
-# The Problem
+## The Problem
 
 I was working for some time on two different repositories, one named
 `app-backend` and one named `app-frontend`. After a few weeks of work,
@@ -20,7 +20,7 @@ The internet is full of articles that describe solutions of variants
 of this problem. The following solution is derived from these
 articles.
 
-# The Solution
+## The Solution
 
 The first step is to download the `git-filter-repo` script from
 [newren/git-filter-repo](https://github.com/newren/git-filter-repo/blob/main/)

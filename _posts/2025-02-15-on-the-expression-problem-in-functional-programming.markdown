@@ -5,7 +5,7 @@ date:       Sat Feb 15 03:46:24 PM CET 2025
 categories: Programming
 ---
 
-# The Expression Problem in Object Oriented Programming
+## The Expression Problem in Object Oriented Programming
 
 A simple example often used for explaining the expression problem in
 object oriented programming is the implementation of an abstract shape
@@ -116,7 +116,7 @@ three different places. And every shape that is added makes things
 worse. This is known as the [expression
 problem](https://en.wikipedia.org/wiki/Expression_problem)
 
-# An Implementation in a Functional Programming Language
+## An Implementation in a Functional Programming Language
 
 In a functional programming language such as Elm, we could model
 shapes as a custom type. As in the object oriented case, we begin with
@@ -208,7 +208,7 @@ circumference shape =
 Adding a new shape requires to add a new case to the implementation of
 each function.
 
-# Object Oriented vs. Functional
+## Object Oriented vs. Functional
 
 In object oriented programming, adding a new shape is simple. There
 is only one place that needs to be touched: the new class. But
@@ -224,7 +224,7 @@ In other words: functional programming solves the object oriented
 expression problem at the expense of creating a functional version of
 it.
 
-# The Visitor Pattern
+## The Visitor Pattern
 
 The visitor pattern is a solution for the expression problem in object
 oriented programming languages. We start by defining an `accept`
@@ -404,7 +404,7 @@ Using the visitor pattern, our implementation behaves as it would
 behave in a functional programming language. Adding methods is easy,
 adding classes is hard.
 
-# The Expression Problem in Functional Programming
+## The Expression Problem in Functional Programming
 
 The following is the second challenge in chapter 5 of Robert Nystrom's
 [Crafting
@@ -432,7 +432,7 @@ close over the same shared object, 'this', basically."
 
 Unfortunately, I have no idea what this means.
 
-# Type Classes and Protocols
+## Type Classes and Protocols
 
 Some functional programming languages provide language support to
 allow the definition of functions in different places. For example, in
@@ -442,7 +442,7 @@ the context of the current article, this is not what I am interested
 in. The visitor pattern we showed above works in any object oriented
 programming language that has a few basic properties.
 
-# The Solution of the Expression Problem in Functional Programming
+## The Solution of the Expression Problem in Functional Programming
 
 Here is again Nystrom's proposed solution. "One way is to create a
 record or tuple containing a function pointer for each operation. In
@@ -567,7 +567,7 @@ The important thing to note is that we had to add the computation of
 the circumference in `square`, `circle`, and `rectangle`. In other
 words, adding a function is now hard.
 
-# Conclusion
+## Conclusion
 
 In the object oriented case, the visitor pattern makes it easy to add
 new methods (while making it harder to add new classes).

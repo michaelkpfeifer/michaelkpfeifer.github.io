@@ -4,7 +4,7 @@ title:      Creating Non-Existing Dates
 date:       Sat Dec 30 09:55:11 PM CET 2023
 categories: Programming
 ---
-# Introduction
+## Introduction
 
 Dealing with dates and times in programming is often thought to be
 simple. It isn't. Time zones are already difficult enough. But there
@@ -42,7 +42,7 @@ languages.
 The examples below are merely examples. They show *one* way for
 creating dates and times.  But this may not even be an idiomatic way.
 
-# Elixir
+## Elixir
 
 Elixir has a notion of dates, times, and datetimes (i.e. timestamps).
 Dates can be created using `Date.new/3`, times can be created using
@@ -86,7 +86,7 @@ There is no way to write down the code that would lead to an invalid
 timestamp because we would need to pass in an invalid date. And, as we
 have seen, we cannot create invalid dates.
 
-# Erlang
+## Erlang
 
 Erlang is an interesting language with respect to date and time
 manipulation. Dates and times are not constructed using some method or
@@ -183,7 +183,7 @@ Erlang is a little bit unusual in this list of programming languages
 since dates and timestamps are created by creating the corresoponding
 representation without the help of any constructor functions.
 
-# Haskell
+## Haskell
 
 Everything I have learned about dates and times in Haskell is
 summarized in the [Haskell Time Library
@@ -269,7 +269,7 @@ main = do
   putStrLn $ show maybeInvalidUtcTime -- prints Nothing
 {% endhighlight %}
 
-# Java
+## Java
 
 The [Java SE 8 Date and
 Time](https://www.oracle.com/technical-resources/articles/java/jf14-date-time.html)
@@ -343,7 +343,7 @@ In some sense, Java does exactly what is expected from the big
 enterprise language. It simply refuses to create invalid dates and
 expects the user to handle the resulting errors.
 
-# JavaScript
+## JavaScript
 
 JavaScript does not distinguish between dates and times. The
 JavaScript `Date` object represents a single moment in
@@ -388,7 +388,7 @@ console.log(invalidDate.toISOString()); // prints 2021-03-02T08:00:00.000Z
 Apparently, JavaScript wants to spare its users from negative
 experiences in the browser.
 
-# Ruby
+## Ruby
 
 Ruby provides a `Date`, a `DateTime`, and a `Time` class.
 
@@ -440,7 +440,7 @@ puts timestamp # prints "2021-03-02 08:00:00 UTC"
 `Date.new` raises an exception where `Time.utc` happily creates some
 timestamp in the following month.
 
-# Summary
+## Summary
 
 The following table is a collection of the results.
 
@@ -461,7 +461,7 @@ The following table is a collection of the results.
 | Ruby UTC Time                 | rolls over to some valid timestamp            |
 |-------------------------------+-----------------------------------------------+
 
-# Conclusion
+## Conclusion
 
 All the programming languages mentioned above agree that it is a good
 idea to be able to have some data structure representing dates and

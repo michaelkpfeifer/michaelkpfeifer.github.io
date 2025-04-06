@@ -5,7 +5,7 @@ date:       Thu May 16 01:48:12 PM CEST 2024
 categories: Programming
 ---
 
-# The Basics
+## The Basics
 
 Let `p` be a Ruby proc object and let `obj` be an arbitrary object. In
 an expression such as
@@ -63,7 +63,7 @@ else
 end
 ```
 
-# Procs, Lamdas, and Methods
+## Procs, Lamdas, and Methods
 
 What does this imply for `even?` and `odd?`? Whatever `even?` and
 `odd?` are, they must have a `call` method. And we know that proc
@@ -145,7 +145,7 @@ discussion. Methods returning procs are not too different from methods
 returning lambdas and the effort for writing procs is the same as the
 effort for writing lambdas.
 
-# Reusing Existing Methods
+## Reusing Existing Methods
 
 In order to use an existing method with `case` and `when` as described
 above, it needs to be wrapped in something like a lambda or a
@@ -205,7 +205,7 @@ else puts 'impossible'
 end
 ```
 
-# Readability
+## Readability
 
 An expression such as
 
@@ -264,7 +264,7 @@ There is a big discrepancy in perceived "complexity" between the apparent
 simplicity of the `case` expression and the definition of the lambdas used in
 the `case` expression.
 
-# Changeability
+## Changeability
 
 Let's have a look at another example. Suppose that `is_prime` is some
 method that returns `true` if the argument passed in is a prime number

@@ -5,7 +5,7 @@ date:       Mon Nov  4 07:26:27 PM CET 2024
 categories: Programming
 ---
 
-# The Problem
+## The Problem
 
 The [Elm Maybe
 module](https://package.elm-lang.org/packages/elm/core/latest/Maybe)
@@ -143,7 +143,7 @@ Note that the result is `Err ("Name not found")` and not `Err
 ("Address not found")`. `Result.map5` returns the first `Err` value it
 encounters.
 
-# The Solution for the Maybe Case
+## The Solution for the Maybe Case
 
 If we extend the `User` record (e.g. by adding a field for storing
 language preferences), we will need something to play the role of the
@@ -219,7 +219,7 @@ Elm REPL has not problem with these type because it does not care
 about their meaning and because it treats functions just like it
 treats any other value.
 
-# A First Look at the Result Case
+## A First Look at the Result Case
 
 Following [Running Out of
 Maps](https://thoughtbot.com/blog/running-out-of-maps), we define a
@@ -276,7 +276,7 @@ not found")` instead of the expected `Err ("Name not found")`. Maybe
 we can fix this by defining another function that plays the role of
 `andMap` when dealing with `Result` values.
 
-# The Result.map2 Case
+## The Result.map2 Case
 
 Let's look at the simplest `Result` case. We can verify (e.g. using
 the Elm REPL) that
@@ -447,7 +447,7 @@ We see that with the new `andMapR` function, a pipeline of two
 like `Result.map2`, the pipeline of two `andMapR` calls returns the
 *first* `Err` it encounters.
 
-# Generalization to More Arguments and Longer Pipelines
+## Generalization to More Arguments and Longer Pipelines
 
 This section essentially repeats the computations of the previous
 section in an attempt to prove the general case using induction. It
@@ -594,7 +594,7 @@ and we show that it is also the first `Err` value passed into
 Result.map<k+1> fn<k+1> x<1> x<2> ... x<k> x<k+1>
 ```
 
-# The Implementation of andMap in Result.Extra
+## The Implementation of andMap in Result.Extra
 
 Interestingly, the
 [Result.Extra](https://github.com/elm-community/result-extra/blob/master/src/Result/Extra.elm)

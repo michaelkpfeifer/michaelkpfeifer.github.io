@@ -5,7 +5,7 @@ date:       Thu Aug  7 09:26:03 PM CEST 2024
 categories: Programming
 ---
 
-# Introduction
+## Introduction
 
 Functions of the
 [fold](https://en.wikipedia.org/wiki/fold_(higher-order_function))
@@ -85,7 +85,7 @@ the details. I believe that it is not too difficult to understand the
 examples presented below as long as the idea of folding is understood
 in any one programming language.
 
-# The Order of Arguments of the Reducing Function
+## The Order of Arguments of the Reducing Function
 
 For the purpose of the current article, we will name the function of
 two arguments passed into the different folding functions the
@@ -153,7 +153,7 @@ Subtraction is the obvious example used to demonstrate these
 differences because, in general, (𝑎 - 𝑏) - 𝑐 is not the same as 𝑎 -
 (𝑏 - 𝑐).
 
-# Associativity
+## Associativity
 
 Addition of natural numbers is associative. That means that for any
 three natural numbers 𝑎, 𝑏, 𝑐,
@@ -179,7 +179,7 @@ general symbol such as ⊕ to express the law of associativity
 
 for a more general operation.
 
-# Left Folds, Right Folds, and Associativity
+## Left Folds, Right Folds, and Associativity
 
 To get a better understanding of how left and right folds relate to
 associativity, let's first look at an example of using `reduce` in
@@ -279,7 +279,7 @@ foldl (\acc val -> "(" ++ acc ++ " + " ++ val ++ ")") "0" ["1", "2", "3"]
 
 In both cases, we see exactly what we expected: the string `"(((0 + 1) + 2) + 3)"`.
 
-# Folding from the Right and Right Associativity
+## Folding from the Right and Right Associativity
 
 It may now seem obvious that the Haskell people and the rest of the
 world essentially talk about the same thing. The Haskell people talk
@@ -346,7 +346,7 @@ When we look at the result `"(1 ⊕ (2 ⊕ (3 ⊕ 0)))"`, we see that
 operations are grouped from the right to the left meaning that right
 folds are right associative.
 
-# Implmentation of `foldl` And `foldr`
+## Implmentation of `foldl` And `foldr`
 
 In many functional programming languages, lists are implemented as
 linked lists. `foldl` works nicely with these linked lists. We take
@@ -412,7 +412,7 @@ does not require any lists to be reversed. For large lists, this
 becomes a problem since `foldr` is not tail recursive and intermediate
 results need to be kept until the end of the list has been reached.
 
-# Accumulating Lists
+## Accumulating Lists
 
 We have already seen that `foldr` is said to reduce the given list
 from the right but that does not mean that the list is reversed or
@@ -459,7 +459,7 @@ the order of the arguments in the reducing function are reversed. This
 returns the desired `[2, 3, 4]` result without reversing the result or
 traversing intermediate values of the accumulator.
 
-# The Choice of the Folding Function in Haskell
+## The Choice of the Folding Function in Haskell
 
 At the beginning of the current article, we cited a piece of
 documentation for `foldl` in Haskell: "Left-associative fold of a
